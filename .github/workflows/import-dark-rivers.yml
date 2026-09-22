@@ -17,14 +17,23 @@ jobs:
       - name: Check out standalone repository
         uses: actions/checkout@v4
 
-      - name: Download and validate the dedicated Dark Rivers release archive
+      - name: Check out the exact original Dark Rivers source commit
+        uses: actions/checkout@v4
+        with:
+          repository: salmonofdoubt/salmonofdoubt.github.io
+          ref: c3ea61a893737f92cfcfcfabb69c2884f52431f1
+          path: _original
+          persist-credentials: false
+          sparse-checkout: |
+            demos/dark-rivers
+            demos/shared
+
+      - name: Rebuild and validate the pinned 21-file release archive
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error --retry 3 \
-            "https://github.com/salmonofdoubt/salmonofdoubt.github.io/releases/download/dark-rivers-v0.1.2/dark-rivers-v0.1.0.zip" \
-            --output /tmp/dark-rivers-v0.1.0.zip
-          echo "4f48b20768ce816a8c2367459530eb5801fa982fd0e6b35bd7a469172f1ff561  /tmp/dark-rivers-v0.1.0.zip" | sha256sum --check
+          python3 _original/demos/dark-rivers/ops/package_release.py
+          mv _original/dist/dark-rivers-v0.1.0.zip /tmp/dark-rivers-v0.1.0.zip
           python3 -m zipfile --test /tmp/dark-rivers-v0.1.0.zip
 
       - name: Import only Dark Rivers and required shared assets
