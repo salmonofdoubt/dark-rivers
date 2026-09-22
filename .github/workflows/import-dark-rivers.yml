@@ -1,0 +1,114 @@
+name: Import pinned Dark Rivers snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/import-dark-rivers.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out standalone repository
+        uses: actions/checkout@v4
+
+      - name: Download and validate the dedicated Dark Rivers release archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 \
+            "https://github.com/salmonofdoubt/salmonofdoubt.github.io/releases/download/dark-rivers-v0.1.2/dark-rivers-v0.1.0.zip" \
+            --output /tmp/dark-rivers-v0.1.0.zip
+          echo "4f48b20768ce816a8c2367459530eb5801fa982fd0e6b35bd7a469172f1ff561  /tmp/dark-rivers-v0.1.0.zip" | sha256sum --check
+          python3 -m zipfile --test /tmp/dark-rivers-v0.1.0.zip
+
+      - name: Import only Dark Rivers and required shared assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          archive_path = Path("/tmp/dark-rivers-v0.1.0.zip")
+          prefix = "dark-rivers-v0.1.0/"
+          expected_commit = "c3ea61a893737f92cfcfcfabb69c2884f52431f1"
+          with ZipFile(archive_path) as z:
+              manifest = json.loads(z.read(prefix + "SNAPSHOT.json"))
+              if manifest.get("source_commit") != expected_commit:
+                  raise SystemExit("Refusing import: source commit does not match frozen release")
+              if manifest.get("website_build") != "20260921-35":
+                  raise SystemExit("Refusing import: unexpected website build")
+              inventory = manifest.get("files") or []
+              if len(inventory) != 21:
+                  raise SystemExit(f"Refusing import: expected 21 files, found {len(inventory)}")
+              archive_members = {n for n in z.namelist() if not n.endswith("/")}
+              expected_members = {prefix + record["path"] for record in inventory}
+              expected_members.add(prefix + "SNAPSHOT.json")
+              if archive_members != expected_members:
+                  raise SystemExit("Refusing import: archive members do not match inventory")
+              for entry in inventory:
+                  name = entry["path"]
+                  if not name.startswith(("demos/dark-rivers/", "demos/shared/")):
+                      raise SystemExit(f"Refusing unexpected website file: {name}")
+                  destination = Path(name)
+                  if ".." in destination.parts or destination.is_absolute():
+                      raise SystemExit(f"Refusing unsafe path: {name}")
+                  if destination.exists():
+                      raise SystemExit(f"Refusing to overwrite existing file: {name}")
+                  content = z.read(prefix + name)
+                  if len(content) != entry["bytes"]:
+                      raise SystemExit(f"Incorrect byte count: {name}")
+                  if hashlib.sha256(content).hexdigest() != entry["sha256"]:
+                      raise SystemExit(f"Checksum mismatch: {name}")
+                  destination.parent.mkdir(parents=True, exist_ok=True)
+                  destination.write_bytes(content)
+              Path("SNAPSHOT.json").write_bytes(z.read(prefix + "SNAPSHOT.json"))
+              print(f"Imported {len(inventory)} verified files from {expected_commit}")
+
+          Path("README.md").write_text("""# Dark Rivers
+
+          Standalone archival repository for Dark Rivers, an interactive exploration
+          of recorded river Q-value observations in Ireland.
+
+          - Live website: https://salmonofdoubt.github.io/demos/dark-rivers/
+          - Original source: https://github.com/salmonofdoubt/salmonofdoubt.github.io/tree/master/demos/dark-rivers
+          - Frozen source commit: c3ea61a893737f92cfcfcfabb69c2884f52431f1
+          - Snapshot file inventory and SHA-256 hashes: SNAPSHOT.json
+          - Documentation: demos/dark-rivers/README.md
+
+          The original website remains unchanged. This archival repository contains
+          only the 21 files required for the Dark Rivers v0.1.0 snapshot, including
+          EPA-derived generated observation data and the shared styles and scripts.
+
+          Run python3 -m http.server 8000 from the repository root, then visit
+          http://localhost:8000/demos/dark-rivers/ to inspect the snapshot locally.
+
+          DOI NOTE: The archived app displays a DOI reserved for an earlier separate
+          manual Zenodo draft; that is NOT the DOI of this repository's automatic
+          GitHub-to-Zenodo archive. Use the actual new Zenodo DOI once assigned.
+          Third-party datasets and map assets retain their own provenance and licences.
+          """.replace("          ", ""), encoding="utf-8")
+          PY
+
+      - name: Commit the archive to this repository only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md SNAPSHOT.json demos/dark-rivers demos/shared
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "Archive already imported; leaving repository unchanged."
+            exit 0
+          fi
+          git commit -m "Import pinned Dark Rivers v0.1.0 with 21 verified files"
+          git push origin HEAD:main
