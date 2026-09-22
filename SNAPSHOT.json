@@ -1,0 +1,116 @@
+{
+  "title": "Dark Rivers",
+  "release": "v0.1.0",
+  "doi": "10.5281/zenodo.22899198",
+  "doi_status_at_preparation": "reserved; publication not verified",
+  "source_repository": "https://github.com/salmonofdoubt/salmonofdoubt.github.io",
+  "source_commit": "c3ea61a893737f92cfcfcfabb69c2884f52431f1",
+  "website_build": "20260921-35",
+  "files": [
+    {
+      "path": "demos/dark-rivers/README.md",
+      "bytes": 5519,
+      "sha256": "f71f6cadba814bec9f905294d99e26f3491c07d320cffcf5d14f4a1e65246685"
+    },
+    {
+      "path": "demos/dark-rivers/app.20260921-35.js",
+      "bytes": 48187,
+      "sha256": "3e3055a1f89716086b992c7bf59141c62be2ca6401cb9ade31a3eb8857f82636"
+    },
+    {
+      "path": "demos/dark-rivers/data/network-mobile.png",
+      "bytes": 721599,
+      "sha256": "2f51aae0fe85f03e470c9bf6b000def172e620c1bf77ab6870b1d0b4f2ca2c24"
+    },
+    {
+      "path": "demos/dark-rivers/data/official.json",
+      "bytes": 10243653,
+      "sha256": "851ddc1506b1c2906eb7ffeae9adf418c2ebbfe7cdb3fa1594f97e4a1d48d5d6"
+    },
+    {
+      "path": "demos/dark-rivers/data/systems.json",
+      "bytes": 4720553,
+      "sha256": "df9b43978426cd09d0e7d2303bb9c7e05b580e39045b81f2c80143134a2fbd33"
+    },
+    {
+      "path": "demos/dark-rivers/data.20260919-21.js",
+      "bytes": 2590,
+      "sha256": "729a35f3f0ac046b8fc7f6e1ac44a8e7d21868a6c5be4933dbfdf138d21d37fe"
+    },
+    {
+      "path": "demos/dark-rivers/icon-192.png",
+      "bytes": 9500,
+      "sha256": "8506f4d1de1445589af6cfdae61cfb9515ffcd9247d000c304ccf95dc91d8b08"
+    },
+    {
+      "path": "demos/dark-rivers/icon-512.png",
+      "bytes": 66145,
+      "sha256": "9b18eb7d97f55831ca4b0f6fdd6ac432c0d56381130c9ca3fcae509698a47661"
+    },
+    {
+      "path": "demos/dark-rivers/icon.svg",
+      "bytes": 541,
+      "sha256": "467f17d00bc23f436f6ef0cd042ba7f28770d22db23aeca3c98a1a3b0fb46d89"
+    },
+    {
+      "path": "demos/dark-rivers/index.html",
+      "bytes": 42800,
+      "sha256": "43ce964c9c9dc4667a8cc99286d458c42790a793c620a56e648f607f27515497"
+    },
+    {
+      "path": "demos/dark-rivers/manifest.webmanifest",
+      "bytes": 683,
+      "sha256": "f6f0f9802434fbcd8286d933f843c2061babfa20e3db3c91e1bd742bf7defbd9"
+    },
+    {
+      "path": "demos/dark-rivers/ops/build_dark_rivers.py",
+      "bytes": 29673,
+      "sha256": "74f971ba5a414a4b34b0af324381ea64899bf226692eb0bd8e6a9aeb6bebe2f8"
+    },
+    {
+      "path": "demos/dark-rivers/ops/test_build_dark_rivers.py",
+      "bytes": 7955,
+      "sha256": "45ce609c73f607bd6bec19cb0cde6abd2891ca2f48646f126cd6e5761c8dc101"
+    },
+    {
+      "path": "demos/dark-rivers/ops/test_production_contract.py",
+      "bytes": 17283,
+      "sha256": "205a954c3eb4dce899777290bf6983fea0ccd18bff45f2dc526732cef80b551a"
+    },
+    {
+      "path": "demos/dark-rivers/service-worker.20260921-35.js",
+      "bytes": 1421,
+      "sha256": "a67938608c84108a36b6ce41a71865107f0e83fa2e4ac77c97600fa060e873ff"
+    },
+    {
+      "path": "demos/dark-rivers/site-config.20260919-21.js",
+      "bytes": 134,
+      "sha256": "340233a0039dcd09caf895852e9f857c4f4a4a12eb8157252497413047895d92"
+    },
+    {
+      "path": "demos/dark-rivers/styles.20260921-35.css",
+      "bytes": 29228,
+      "sha256": "5fcca688c0f48703a7f35757df1dfd1c375d80b9a38e29c486dec977f1eff355"
+    },
+    {
+      "path": "demos/shared/demo-return.css",
+      "bytes": 1203,
+      "sha256": "c992848fbdd236074444914248a21ebd66f99805cb4e8e4d3364c38959a63c2e"
+    },
+    {
+      "path": "demos/shared/demo-return.js",
+      "bytes": 690,
+      "sha256": "7b7cf578a493f02bce02ffcdb85393e3f81e20e7fbb13fc8b05cdc7e0fdd4c1b"
+    },
+    {
+      "path": "demos/shared/demo-support.css",
+      "bytes": 3267,
+      "sha256": "7e2c45807fde2b6799f91be86e906a53cb9705614aafad9ee5c695c293e42f40"
+    },
+    {
+      "path": "demos/shared/demo-support.js",
+      "bytes": 2631,
+      "sha256": "2c650758f60ae9b230d0d1aa6c0d3eef19e993586b6973a5f253be752e4d4712"
+    }
+  ]
+}
