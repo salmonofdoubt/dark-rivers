@@ -16,7 +16,12 @@ EPA-derived generated observation data and the shared styles and scripts.
 Run python3 -m http.server 8000 from the repository root, then visit
 http://localhost:8000/demos/dark-rivers/ to inspect the snapshot locally.
 
-DOI NOTE: The archived app displays a DOI reserved for an earlier separate
-manual Zenodo draft; that is NOT the DOI of this repository's automatic
-GitHub-to-Zenodo archive. Use the actual new Zenodo DOI once assigned.
+Zenodo archive of standalone v0.1.0: https://doi.org/10.5281/zenodo.22900726
+
+The v0.1.0 source tag is an immutable historical snapshot: some bundled website
+assets still display the DOI reserved for a separate earlier manual draft.
+That provisional DOI does not identify the standalone archive. For citation of
+the standalone v0.1.0 software release, use 10.5281/zenodo.22900726.
+The maintained live website links to the standalone archive DOI.
+
 Third-party datasets and map assets retain their own provenance and licences.
